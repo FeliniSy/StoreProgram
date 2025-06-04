@@ -53,7 +53,6 @@ public class LoginClass {
 
         pane.setFocusTraversable(true);
 
-        // Adding action for login button
         loginButton.setOnAction(e -> {
             String userInput = username.getText().trim();
             String passInput = password.getText().trim();
@@ -66,11 +65,9 @@ public class LoginClass {
             try (Connection con = org.example.storeprogram.forSQL.getConnection();
                  PreparedStatement pstmt = con.prepareStatement("SELECT userID,username,pasword FROM users WHERE username = ? AND pasword = ?")) {
 
-                // Set query parameters
                 pstmt.setString(1, userInput);
                 pstmt.setString(2, passInput);
 
-                // Execute query
                 try (ResultSet rs = pstmt.executeQuery()) {
                     if (rs.next()) {
                         // Successfully logged in
@@ -79,7 +76,6 @@ public class LoginClass {
                         org.example.storeprogram.HelloApplication.mainLayout.setCenter(MainPage.mainPage());
 
                     } else {
-                        // Invalid credentials
                         showError("Invalid username or password.");
                     }
                 }
