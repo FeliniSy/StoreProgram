@@ -96,10 +96,9 @@ public class AdminPanel {
 
                 textArea.clear();
 
-                // Get column count to display all columns
+            
                 int columnCount = rs.getMetaData().getColumnCount();
 
-                // Add header with column names
                 StringBuilder header = new StringBuilder();
                 for (int i = 1; i <= columnCount; i++) {
                     header.append(rs.getMetaData().getColumnName(i));
@@ -138,10 +137,8 @@ public class AdminPanel {
 
                 textArea.clear();
 
-                // Get column count to display all columns
                 int columnCount = rs.getMetaData().getColumnCount();
 
-                // Add header with column names
                 StringBuilder header = new StringBuilder();
                 for (int i = 1; i <= columnCount; i++) {
                     header.append(rs.getMetaData().getColumnName(i));
@@ -207,10 +204,8 @@ public class AdminPanel {
                 textArea.clear();
                 boolean found = false;
 
-                // Get column count to display all columns
                 int columnCount = rs.getMetaData().getColumnCount();
 
-                // Add header with column names
                 StringBuilder header = new StringBuilder();
                 for (int i = 1; i <= columnCount; i++) {
                     header.append(rs.getMetaData().getColumnName(i));
@@ -276,7 +271,6 @@ public class AdminPanel {
         formGrid.setAlignment(Pos.CENTER);
         formGrid.setPadding(new Insets(20));
 
-        // Create text fields with labels
         TextField nameField = new TextField();
         nameField.setPromptText("Enter product name");
         nameField.setPrefWidth(200);
@@ -318,7 +312,6 @@ public class AdminPanel {
         barCodeField.setPromptText("Enter barcode");
         barCodeField.setPrefWidth(200);
 
-        // Add labels and fields to grid
         formGrid.add(new Label("Product Name:"), 0, 0);
         formGrid.add(nameField, 1, 0);
 
@@ -383,7 +376,6 @@ public class AdminPanel {
 
         addProductButton.setOnAction(e -> {
             try {
-                // Validate required fields
                 if (nameField.getText().trim().isEmpty() ||
                         amountField.getText().trim().isEmpty() ||
                         priceField.getText().trim().isEmpty() ||
@@ -394,14 +386,12 @@ public class AdminPanel {
                     return;
                 }
 
-                // Parse input fields
                 String name = nameField.getText().trim();
                 int amount = Integer.parseInt(amountField.getText().trim());
                 double price = Double.parseDouble(priceField.getText().trim());
                 double sellPrice = Double.parseDouble(sellPriceField.getText().trim());
                 String barCode = barCodeField.getText().trim();
 
-                // Optional fields - handle empty values
                 Integer amountSize = amountSizeField.getText().trim().isEmpty() ? null : Integer.parseInt(amountSizeField.getText().trim());
                 Integer category = categoryField.getText().trim().isEmpty() ? null : Integer.parseInt(categoryField.getText().trim());
                 Integer branchID = branchIDField.getText().trim().isEmpty() ? null : Integer.parseInt(branchIDField.getText().trim());
@@ -411,7 +401,6 @@ public class AdminPanel {
                 try (Connection con = forSQL.getConnection();
                      PreparedStatement stmt = con.prepareStatement(query)) {
 
-                    // Bind parameters to the query
                     stmt.setString(1, name);
                     stmt.setInt(2, amount);
                     stmt.setDouble(3, price);
@@ -449,12 +438,11 @@ public class AdminPanel {
                     stmt.setDouble(9, sellPrice);
                     stmt.setString(10, barCode);
 
-                    // Execute the query
                     int rowsInserted = stmt.executeUpdate();
 
                     if (rowsInserted > 0) {
                         showAlert("Success", "Product '" + name + "' added successfully!");
-                        // Clear fields after successful addition
+                        
                         clearButton.fire();
                     } else {
                         showAlert("Error", "Failed to add the product. Please try again.");
@@ -482,7 +470,6 @@ public class AdminPanel {
         sellPriceField.getStyleClass().add("text-field");
         barCodeField.getStyleClass().add("text-field");
 
-        // Add all components to main container
         mainContainer.getChildren().addAll(titleLabel, new Separator(), formGrid, buttonBox);
 
         scrollPane.setContent(mainContainer);
